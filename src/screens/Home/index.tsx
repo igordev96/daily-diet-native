@@ -3,6 +3,7 @@ import Button from '../../components/Button';
 import FoodCard from '../../components/FoodCard';
 import Header from '../../components/Header';
 import PercentageCard from '../../components/PercentageCard';
+import SectionHeader from '../../components/SectionHeader';
 import { FOODS } from '../../utils/FOODS';
 import * as S from './styles';
 
@@ -21,7 +22,9 @@ export default function Home() {
         <SectionList
           showsVerticalScrollIndicator={false}
           sections={FOODS}
-          renderSectionHeader={({ section }) => <Text>{section.date}</Text>}
+          renderSectionHeader={({ section }) => (
+            <SectionHeader>{section.date}</SectionHeader>
+          )}
           renderItem={({ item }) => <FoodCard foodData={item} />}
         />
       </S.Content>
