@@ -7,13 +7,13 @@ export interface IFoodCard {
 
 export default function FoodCard(props: IFoodCard) {
   const {
-    foodData: { food, hour, isAllowed },
+    foodData: { food, date, isAllowed },
   } = props;
 
   return (
     <S.Container>
       <S.Content>
-        <S.Hour>{hour}</S.Hour>
+        <S.Hour>{date}</S.Hour>
         <S.Separator />
         <S.Food>{food}</S.Food>
       </S.Content>

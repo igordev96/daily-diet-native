@@ -19,6 +19,11 @@ export const Icon = styled(Feather).attrs<ButtonIconProps>(
   ({ theme, name, type }) => ({
     name,
     size: 24,
-    color: type === 'PRIMARY' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+    color:
+      type === 'PRIMARY'
+        ? theme.COLORS.GREEN_DARK
+        : type === 'SECONDARY'
+        ? theme.COLORS.RED_DARK
+        : theme.COLORS.GRAY_2,
   })
 )``;

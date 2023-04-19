@@ -1,33 +1,81 @@
-import { SectionList, Text } from 'react-native';
+import { useCallback, useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { SectionList, StatusBar } from 'react-native';
+import { useTheme } from 'styled-components/native';
 import Button from '../../components/Button';
 import FoodCard from '../../components/FoodCard';
 import Header from '../../components/Header';
 import PercentageCard from '../../components/PercentageCard';
 import SectionHeader from '../../components/SectionHeader';
-import { FOODS } from '../../utils/FOODS';
+import { IFoodData } from '../../interfaces/FoodData.interface';
+import { getMeals } from '../../storage/meal/getMeals';
+import { checkDietMeals } from '../../utils/checkDietMeals';
+import { getMealsInfo } from '../../utils/getMealsInfo';
 import * as S from './styles';
 
 export default function Home() {
+  const { navigate } = useNavigation();
+  const { COLORS } = useTheme();
+
+  const [percentage, setPercentage] = useState<string>('75%');
+  const [meals, setMeals] = useState<IFoodData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleCheckOverview = () => {
+    navigate('overview');
+  };
+
+  const handleNewMeal = () => {
+    navigate('newmeal');
+  };
+
+  const fetchMeals = async () => {
+    try {
+      setIsLoading(true);
+      const mealsData = await getMeals();
+      setMeals(mealsData);
+      const { allowedPercentage } = getMealsInfo(mealsData);
+      setPercentage(allowedPercentage);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMeals();
+    }, [])
+  );
+
   return (
-    <S.Container>
-      <Header />
-      <PercentageCard
-        type='PRIMARY'
-        showButton
-        handleButtonAction={() => console.log('test')}
-      />
-      <S.Content>
-        <S.Text>Meals</S.Text>
-        <Button title='New meal' icon='plus' />
-        <SectionList
-          showsVerticalScrollIndicator={false}
-          sections={FOODS}
-          renderSectionHeader={({ section }) => (
-            <SectionHeader>{section.date}</SectionHeader>
-          )}
-          renderItem={({ item }) => <FoodCard foodData={item} />}
-        />
-      </S.Content>
-    </S.Container>
+    <>
+      <StatusBar barStyle='dark-content' backgroundColor={COLORS.GRAY_7} />
+      {isLoading ? null : (
+        <S.Container>
+          <Header />
+          <PercentageCard
+            title={percentage}
+            subtitle='of your daily diet!'
+            type={checkDietMeals(percentage)}
+            showButton
+            handleButtonAction={handleCheckOverview}
+          />
+          <S.Content>
+            <S.Text>Meals</S.Text>
+            <Button title='New meal' icon='plus' onPress={handleNewMeal} />
+            <SectionList
+              showsVerticalScrollIndicator={false}
+              sections={meals}
+              renderSectionHeader={({ section }) => (
+                <SectionHeader>{section.date}</SectionHeader>
+              )}
+              renderItem={({ item }) => <FoodCard foodData={item} />}
+            />
+          </S.Content>
+        </S.Container>
+      )}
+    </>
   );
 }

@@ -1,11 +1,11 @@
 export interface IData {
-  hour: string;
+  date: string;
   food: string;
   description: string;
   isAllowed: boolean;
 }
 
 export interface IFoodData {
-  date: number;
+  date: string;
   data: IData[];
 }

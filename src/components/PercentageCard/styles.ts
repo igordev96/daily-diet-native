@@ -9,8 +9,11 @@ export const Container = styled(View)<IPercentageCard>`
       : type === 'SECONDARY'
       ? theme.COLORS.RED_LIGHT
       : theme.COLORS.GRAY_6};
-  height: 102px;
-  width: 100%;
-  border-radius: 8px;
+  height: ${({ arrowPosition }) =>
+    arrowPosition === 'TOP-LEFT' ? '124px' : '102px'};
+  border-radius: ${({ arrowPosition }) =>
+    arrowPosition === 'TOP-LEFT' ? '0' : '8px'};
   padding: 20px 16px;
+  justify-content: center;
+  align-items: center;
 `;
