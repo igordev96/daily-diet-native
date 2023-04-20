@@ -1,4 +1,4 @@
-# TodoNative
+# Daily Diet
 
 An application to control what do you eat in your daily basis, it gives you some nice overview of your diet food!
 
