@@ -10,18 +10,20 @@ import {
 import { useTheme } from 'styled-components/native';
 import Button from '../../components/Button';
 import ButtonIcon from '../../components/ButtonIcon';
+import ConfirmationModal from '../../components/ConfirmationModal';
 import Datefields from '../../components/DateFields';
 import InputField from '../../components/InputField';
 import SelectButtons from '../../components/SelectButtons';
 import { IData } from '../../interfaces/FoodData.interface';
 import { addMeal } from '../../storage/meal/addMeal';
+import { editMealById } from '../../storage/meal/editMealById';
 import { getMealById } from '../../storage/meal/getMealById';
+import { removeMealById } from '../../storage/meal/removeMealById';
 import {
   convertMiliToDate,
   convertMiliToHours,
 } from '../../utils/convertMiliToDate';
 import * as S from './styles';
-import ConfirmationModal from '../../components/ConfirmationModal';
 
 type RouteParams = RouteProp<ParamListBase> & {
   params: {
@@ -73,7 +75,38 @@ export default function Meal() {
     }
   };
 
-  const handleModal = (
+  const handleEditMeal = async () => {
+    const meal: IData = {
+      id: id!,
+      date: timeString,
+      description,
+      food: name,
+      isAllowed: isDiet,
+    };
+    try {
+      setIsLoading(true);
+      await editMealById(meal, dateString);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      navigate('home');
+    }
+  };
+
+  const handleRemoveMeal = async () => {
+    try {
+      setIsLoading(true);
+      await removeMealById(id!);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      navigate('home');
+    }
+  };
+
+  const handleModal = async (
     type: 'edit' | 'remove' | 'none',
     firstCall: boolean = false
   ) => {
@@ -81,21 +114,17 @@ export default function Meal() {
       setType(type);
       setShowModal(true);
     } else {
-      let test: string;
-
       switch (type) {
         case 'edit':
-          test = 'edit';
+          await handleEditMeal();
           break;
         case 'remove':
-          test = 'remove';
+          await handleRemoveMeal();
           break;
         case 'none':
         default:
-          test = 'none';
           break;
       }
-      console.log(test);
       setShowModal(false);
     }
   };
@@ -103,7 +132,7 @@ export default function Meal() {
   const fetchMealById = async () => {
     try {
       setIsLoading(true);
-      const meal = await getMealById(id);
+      const meal = await getMealById(id!);
       setName(meal.meal?.food ?? '');
       setDescription(meal.meal?.description ?? '');
       setIsDiet(meal.meal?.isAllowed ?? true);

@@ -3,6 +3,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { SectionList, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import Button from '../../components/Button';
+import EmptyList from '../../components/EmptyList';
 import FoodCard from '../../components/FoodCard';
 import Header from '../../components/Header';
 import PercentageCard from '../../components/PercentageCard';
@@ -65,7 +66,7 @@ export default function Home() {
         <S.Container>
           <Header />
           <PercentageCard
-            title={percentage}
+            title={percentage === 'NaN%' ? '0%' : percentage}
             subtitle='of your daily diet!'
             type={checkDietMeals(percentage)}
             showButton
@@ -75,6 +76,7 @@ export default function Home() {
             <S.Text>Meals</S.Text>
             <Button title='New meal' icon='plus' onPress={handleAddMeal} />
             <SectionList
+              ListEmptyComponent={<EmptyList />}
               showsVerticalScrollIndicator={false}
               sections={meals}
               renderSectionHeader={({ section }) => (
