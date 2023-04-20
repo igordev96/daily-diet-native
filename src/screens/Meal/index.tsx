@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, StatusBar, Modal } from 'react-native';
+import { Alert, StatusBar } from 'react-native';
 import { randomUUID } from 'expo-crypto';
 import {
   ParamListBase,
