@@ -1,17 +1,19 @@
+import { TouchableOpacityProps } from 'react-native';
 import { IData } from '../../interfaces/FoodData.interface';
 import * as S from './styles';
 
-export interface IFoodCard {
+export interface IFoodCard extends TouchableOpacityProps {
   foodData: IData;
 }
 
 export default function FoodCard(props: IFoodCard) {
   const {
     foodData: { food, date, isAllowed },
+    ...rest
   } = props;
 
   return (
-    <S.Container>
+    <S.Container {...rest}>
       <S.Content>
         <S.Hour>{date}</S.Hour>
         <S.Separator />

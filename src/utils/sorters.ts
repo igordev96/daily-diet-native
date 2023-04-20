@@ -3,6 +3,7 @@ import { IData, IFoodData } from '../interfaces/FoodData.interface';
 const sortByDateIFoodData = (a: IFoodData, b: IFoodData): number => {
   const aDate = new Date(a.date.split('.').reverse().join('-'));
   const bDate = new Date(b.date.split('.').reverse().join('-'));
+
   if (aDate < bDate) {
     return 1;
   }
@@ -12,7 +13,7 @@ const sortByDateIFoodData = (a: IFoodData, b: IFoodData): number => {
   return 0;
 };
 
-function sortByDateIData(a: IData, b: IData): number {
+const sortByDateIData = (a: IData, b: IData): number => {
   const aHours = parseInt(a.date.split(':')[0]);
   const aMinutes = parseInt(a.date.split(':')[1]);
   const bHours = parseInt(b.date.split(':')[0]);
@@ -31,6 +32,6 @@ function sortByDateIData(a: IData, b: IData): number {
       return 0;
     }
   }
-}
+};
 
 export { sortByDateIFoodData, sortByDateIData };

@@ -1,4 +1,5 @@
 export interface IData {
+  id: string;
   date: string;
   food: string;
   description: string;

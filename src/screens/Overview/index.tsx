@@ -77,7 +77,7 @@ export default function Overview() {
               <S.Title>Overview</S.Title>
               <PercentageCard
                 title={bestSequency.toString()}
-                subtitle='best sequency of your meals'
+                subtitle='best streak of diet meals'
                 type={'THIRD'}
               />
               <PercentageCard

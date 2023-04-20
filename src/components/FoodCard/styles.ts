@@ -5,7 +5,7 @@ export interface ICircle extends ViewProps {
   isAllowed: boolean;
 }
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
   width: 100%;
   height: 48px;
   border-radius: 6px;

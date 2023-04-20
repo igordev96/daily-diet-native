@@ -9,12 +9,14 @@ import {
 import * as S from './styles';
 
 export interface IDateFields {
+  dateString: string;
   setDateString(value: string): void;
+  timeString: string;
   setTimeString(value: string): void;
 }
 
 export default function Datefields(props: IDateFields) {
-  const { setDateString, setTimeString } = props;
+  const { dateString, timeString, setDateString, setTimeString } = props;
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -44,13 +46,13 @@ export default function Datefields(props: IDateFields) {
         <S.Column>
           <S.Label>Date</S.Label>
           <S.Content onPress={handleOpenDate}>
-            <S.Text>{convertMiliToDate(date.getTime())}</S.Text>
+            <S.Text>{dateString}</S.Text>
           </S.Content>
         </S.Column>
         <S.Column>
           <S.Label>Time</S.Label>
           <S.Content onPress={handleOpenTime}>
-            <S.Text>{convertMiliToHours(date.getTime())}</S.Text>
+            <S.Text>{timeString}</S.Text>
           </S.Content>
         </S.Column>
       </S.Container>

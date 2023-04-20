@@ -7,7 +7,7 @@ import FoodCard from '../../components/FoodCard';
 import Header from '../../components/Header';
 import PercentageCard from '../../components/PercentageCard';
 import SectionHeader from '../../components/SectionHeader';
-import { IFoodData } from '../../interfaces/FoodData.interface';
+import { IData, IFoodData } from '../../interfaces/FoodData.interface';
 import { getMeals } from '../../storage/meal/getMeals';
 import { checkDietMeals } from '../../utils/checkDietMeals';
 import { getMealsInfo } from '../../utils/getMealsInfo';
@@ -25,8 +25,17 @@ export default function Home() {
     navigate('overview');
   };
 
-  const handleNewMeal = () => {
-    navigate('newmeal');
+  const handleAddMeal = () => {
+    navigate('meal', {
+      mode: 'add',
+    });
+  };
+
+  const handleOpenMeal = (item: IData) => {
+    navigate('meal', {
+      mode: 'edit',
+      id: item.id,
+    });
   };
 
   const fetchMeals = async () => {
@@ -64,14 +73,19 @@ export default function Home() {
           />
           <S.Content>
             <S.Text>Meals</S.Text>
-            <Button title='New meal' icon='plus' onPress={handleNewMeal} />
+            <Button title='New meal' icon='plus' onPress={handleAddMeal} />
             <SectionList
               showsVerticalScrollIndicator={false}
               sections={meals}
               renderSectionHeader={({ section }) => (
                 <SectionHeader>{section.date}</SectionHeader>
               )}
-              renderItem={({ item }) => <FoodCard foodData={item} />}
+              renderItem={({ item }) => (
+                <FoodCard
+                  onPress={() => handleOpenMeal(item)}
+                  foodData={item}
+                />
+              )}
             />
           </S.Content>
         </S.Container>
